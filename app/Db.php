@@ -6,7 +6,8 @@
  * Time: 15:41
  */
 
-namespace app;
+namespace App;
+
 use PDO;
 
 class Db
@@ -35,7 +36,7 @@ class Db
         $dsn = 'mysql:host=' . DB_HOST .';dbname=' . DB_NAME . ';charset=' . DB_CHARSET;
 
         $options = [
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_COLUMN,
+//            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASOC,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING,
             PDO::ATTR_PERSISTENT => true
 
@@ -61,12 +62,12 @@ class Db
      * @param $sql
      * @return array
      */
-    public function query($sql)
+    public function query($sql, $class)
     {
         $sth = $this->dbh->prepare($sql);
         $res = $sth->execute();
         if (false !== $res) {
-            return $sth->fetchAll();
+            return $sth->fetchAll(PDO::FETCH_CLASS, $class);
         }
         return [];
     }
