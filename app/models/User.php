@@ -13,6 +13,7 @@ use App\Db;
 
 class User
 {
+    const TABLE = 'Users';
     public $user_name;
     public $user_lastname;
 
@@ -20,8 +21,8 @@ class User
     {
         $db = new Db();
         return $db->query(
-            'SELECT user_name, user_lastname FROM Users',
-            'App\Models\User'
+            'SELECT user_name, user_lastname FROM ' . self::TABLE,
+            self::class
         );
     }
 
