@@ -8,23 +8,12 @@
 
 namespace App\Models;
 
+use App\Model;
 
-use App\Db;
-
-class User
+class User extends Model
 {
     const TABLE = 'Users';
     public $user_name;
     public $user_lastname;
-
-    public static function findAll ()
-    {
-        $db = new Db();
-        return $db->query(
-            'SELECT user_name, user_lastname FROM ' . self::TABLE,
-            self::class
-        );
-    }
-
 
 }
