@@ -51,7 +51,7 @@ class Db
      * @param $sql
      * @return mixed
      */
-    public function execute($sql)
+    public function execute($sql, array $param = [])
     {
         $sth = $this->dbh->prepare($sql);
         $res = $sth->execute();
@@ -62,13 +62,22 @@ class Db
      * @param $sql
      * @return array
      */
-    public function query($sql, $class)
+    public function query($sql, array $param = [], $class = null)
     {
-        $sth = $this->dbh->prepare($sql);
-        $res = $sth->execute();
-        if (false !== $res) {
-            return $sth->fetchAll(PDO::FETCH_CLASS, $class);
+        $result;
+        for ($i = 0; $i < count($param); $i++){
+            $sth = $this->dbh->prepare($sql);
+            $res = $sth->execute(['id' => $param[$i]]);
+
+            if (false !== $res) {
+
+                $result[] = $sth->fetchAll(PDO::FETCH_CLASS, $class)[0];
+            } else {
+                $result = [];
+            }
         }
-        return [];
+        return $result;
+
+
     }
 }
