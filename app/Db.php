@@ -65,19 +65,29 @@ class Db
     public function query($sql, array $param = [], $class = null)
     {
         $result;
-        for ($i = 0; $i < count($param); $i++){
+
+        if(empty($param)) {
             $sth = $this->dbh->prepare($sql);
-            $res = $sth->execute(['id' => $param[$i]]);
-
-            if (false !== $res) {
-
-                $result[] = $sth->fetchAll(PDO::FETCH_CLASS, $class)[0];
+            $res = $sth->execute();
+            if(false !== $res) {
+                return $sth->fetchAll(PDO::FETCH_CLASS, $class);
             } else {
-                $result = [];
+                return [];
             }
+        } else {
+
+            for ($i = 0; $i < count($param); $i++){
+                $sth = $this->dbh->prepare($sql);
+                $res = $sth->execute([':id' => $param[$i]]);
+
+                if (false !== $res) {
+                    $result[] = $sth->fetchAll(PDO::FETCH_CLASS, $class)[0];
+                } else {
+                    $result = [];
+                }
+            }
+
+            return $result;
         }
-        return $result;
-
-
     }
 }

@@ -8,6 +8,6 @@
 #RewriteCond %{REQUEST_FILENAME} !-d
 #RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteRule ^(.*)$ index.php [QSA,L]
-
+AddDefaultCharset utf-8
 RewriteEngine on
-RewriteRule ^(.*) $1 [L]
+RewriteRule ^(.*)$ /public/$1

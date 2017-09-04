@@ -55,3 +55,4 @@ define('DB_PASS', 'root');
 define('DB_CHARSET', 'utf8');
 
 require __DIR__ . '/autoloader.php';
+require __DIR__ . '/debug.php';
